@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #0a0a0a;
+            color: #fff;
+            background-image: url('https://wallpapercave.com/wp/wp6277399.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            padding: 30px;
+            background-color: rgba(20, 20, 20, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(255, 157, 0, 0.5);
+            border: 2px solid #ff9d00;
+            animation: fadeIn 1s ease-in-out;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .game-logo {
+            width: auto;
+            max-width: 150px;
+            height: auto;
+            margin: 0 auto 20px;
+            position: relative;
+            animation: glowLogo 2s infinite alternate;
+        }
+        
+        .game-logo img {
+            width: 100%;
+            height: auto;
+            max-height: 120px;
+            object-fit: contain;
+        }
+        
+        @keyframes glowLogo {
+            0% { filter: drop-shadow(0 0 5px rgba(255, 157, 0, 0.7)); }
+            100% { filter: drop-shadow(0 0 20px rgba(255, 157, 0, 1)); }
+        }
+        
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 25px;
+            position: relative;
+            animation: zoomInOut 2s infinite alternate, glowCheck 1.5s infinite alternate;
+        }
+        
+        @keyframes zoomInOut {
+            0% { transform: scale(0.9); }
+            100% { transform: scale(1.1); }
+        }
+        
+        @keyframes glowCheck {
+            0% { filter: drop-shadow(0 0 5px rgba(0, 255, 0, 0.7)); }
+            100% { filter: drop-shadow(0 0 20px rgba(0, 255, 0, 1)); }
+        }
+        
+        .success-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: #00cc00;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            color: #00cc00;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(0, 204, 0, 0.5);
+        }
+        
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #ddd;
+        }
+        
+        .highlight {
+            color: #ff9d00;
+            font-weight: bold;
+        }
+        
+        /* Countdown styles */
+        .countdown {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ff9d00;
+            margin: 20px 0;
+            text-shadow: 0 0 10px rgba(255, 157, 0, 0.7);
+            animation: pulse 1s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            from { opacity: 0.8; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1.02); }
+        }
+        
+        /* Loading Screen Styles */
+        .transition-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        
+        .transition-screen.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .transition-image {
+            max-width: 15%;
+            max-height: 15%;
+        }
+        
+        /* Blinking animation for transition image */
+        @keyframes blinkImage {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .transition-image.blink {
+            animation: blinkImage 1s infinite ease-in-out;
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            p {
+                font-size: 1rem;
+            }
+            
+            .success-icon {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .game-logo {
+                max-width: 120px;
+            }
+            
+            .countdown {
+                font-size: 2rem;
+            }
+            
+            .transition-image {
+                max-width: 25%;
+                max-height: 25%;
+            }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+    <!-- Loading Screen -->
+    <div class="transition-screen" id="transitionScreen">
+        <img src="loding.png" alt="Loading" class="transition-image blink" id="transitionImage">
+    </div>
+
+    <div class="container">
+        <div class="game-logo">
+            <img src="grna_logo.webp" alt="FF Logo">
+        </div>
+        
+        <div class="success-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+        </div>
+        
+        <h1>CONGRATULATIONS!</h1>
+        <p>Your <span class="highlight">Free Fire</span> account has been <span class="highlight">unbanned successfully</span>. You can now login and enjoy the game again.</p>
+        
+        <div class="countdown" id="countdown">10</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get elements
+            const countdownElement = document.getElementById('countdown');
+            const transitionScreen = document.getElementById('transitionScreen');
+            const transitionImage = document.getElementById('transitionImage');
+            
+            // Countdown and redirect
+            let secondsLeft = 10;
+            
+            const countdownInterval = setInterval(() => {
+                secondsLeft--;
+                countdownElement.textContent = secondsLeft;
+                
+                if (secondsLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    showLoadingAndRedirect();
+                }
+            }, 1000);
+            
+            // Function to show loading and then redirect
+            function showLoadingAndRedirect() {
+                // Show loading screen
+                transitionScreen.classList.add('active');
+                transitionImage.classList.add('blink');
+                
+                // Wait for 3 seconds before redirecting
+                setTimeout(() => {
+                    window.location.href = 'unba_nned_processing_id8748hfgh';
+                }, 3000);
+            }
+            
+            // Disable right-click
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>
